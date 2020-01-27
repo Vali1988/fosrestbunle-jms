@@ -1,0 +1,16 @@
+fos_rest:
+  param_fetcher_listener: true
+  format_listener:
+    rules:
+      fallback_format: json
+      prefer_extension: false
+      priorities: [json, xml]
+  view:
+    view_response_listener: force
+    formats:
+      json: true
+      xml: true
+      jsonp: false
+      rss: false
+      html: false
+    failed_validation: HTTP_BAD_REQUEST
