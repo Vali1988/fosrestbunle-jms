@@ -14,5 +14,5 @@ interface UserServiceInterface
 	function deleteUser(User $user);
 	function updateUser(User $user);
 	function collection(Request $request);
-	function item(User $user);
+	function item(string $slug, string $identifier = 'id');
 }

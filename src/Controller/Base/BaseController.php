@@ -40,8 +40,7 @@ class BaseController extends AbstractFOSRestController implements BaseController
 
 	public function item($slug)
 	{
-		$entity = $this->getObjectRepository()->findOneBy([$this->identifier => $slug]);
-		$view = $this->view($this->service->item($entity));
+		$view = $this->view($this->service->item($slug, $this->identifier));
 		$view->getContext()->enableMaxDepth();
 		return $this->handleView($view);
 	}

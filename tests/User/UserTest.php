@@ -91,8 +91,15 @@ class UserTest extends Base
 		$this->createAuthenticatedClient('user@test.com', 'testtest');
 		$id = $this->findOneIdBy(User::class, 'email', 'user2@test.com');
 		$request = $this->request(Request::METHOD_GET, '/users/'.$id);
-
 		$this->assertEquals(Response::HTTP_FORBIDDEN, $request->getStatusCode());
+
+		$id = $this->findOneIdBy(User::class, 'email', 'user2@test.com');
+		$request = $this->request(Request::METHOD_GET, '/users/'.$id);
+		$this->assertEquals(Response::HTTP_FORBIDDEN, $request->getStatusCode());
+
+		$this->createAuthenticatedClient('admin@test.com', 'testtest');
+		$request = $this->request(Request::METHOD_GET, '/users/85');
+		$this->assertEquals(Response::HTTP_NOT_FOUND, $request->getStatusCode());
 	}
 
 	/*

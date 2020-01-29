@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ErrorController extends BaseController
 {
-	public function showAction(Request $request, \Exception $exception)
+	public function showAction(Request $request,  $exception)
 	{
 		$data = [
 			'message' => $exception->getMessage(),

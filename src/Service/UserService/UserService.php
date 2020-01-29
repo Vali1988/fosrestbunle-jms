@@ -9,10 +9,12 @@ use App\Service\CollectionService\CollectionServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 class UserService implements UserServiceInterface
 {
@@ -52,7 +54,7 @@ class UserService implements UserServiceInterface
 			throw new AccessDeniedHttpException('Access Denied');
 		}
 
-		if(in_array($parameters['method'], ['delete', 'item', 'patch'])
+		if(in_array($parameters['method'], [Request::METHOD_DELETE, 'item', Request::METHOD_PATCH])
 			&& (!$this->checkCredential($user) && !$this->authorizationChecker->isGranted('ROLE_ADMIN'))) {
 				throw new AccessDeniedException('Access Denied');
 		}
@@ -73,13 +75,13 @@ class UserService implements UserServiceInterface
 
 	function deleteUser(User $user)
 	{
-		$this->checkRights($user, ['method' => 'delete']);
+		$this->checkRights($user, ['method' => Request::METHOD_DELETE]);
 		$this->entityManager->getRepository(User::class)->delete($user);
 	}
 
 	public function updateUser(User $user)
 	{
-		$this->checkRights($user, ['method' => 'patch']);
+		$this->checkRights($user, ['method' => Request::METHOD_PATCH]);
 		$this->entityManager->getRepository(User::class)->add($user);
 		return $this->serializerService->serializer($user, ['groups' => 'getUser']);
 	}
@@ -89,8 +91,12 @@ class UserService implements UserServiceInterface
 		return $this->collectionService->collection(User::class, $request);
 	}
 
-	function item(User $user)
+	function item(string $slug, string $identifier = 'id')
 	{
+		$user = $this->entityManager->getRepository(User::class)->findOneBy([$identifier => $slug]);
+		if(!$user) {
+			throw new NotFoundHttpException('User Not Found');
+		}
 		$this->checkRights($user, ['method' => 'item']);
 		return $user;
 	}
