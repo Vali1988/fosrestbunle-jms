@@ -25,3 +25,28 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    App\EventListener\ProductEventListener:
+        tags:
+            - {name: 'doctrine.orm.entity_listener', event: 'prePersist', entity: 'App\Entity\Product'}
+            - {name: 'doctrine.orm.entity_listener', event: 'preUpdate', entity: 'App\Entity\Product'}
+    App\EventListener\TagEventListener:
+        tags:
+            - {name: 'doctrine.orm.entity_listener', event: 'prePersist', entity: 'App\Entity\Tag'}
+            - {name: 'doctrine.orm.entity_listener', event: 'preUpdate', entity: 'App\Entity\Tag'}
+    App\EventListener\BrandEventListener:
+        tags:
+            - {name: 'doctrine.orm.entity_listener', event: 'prePersist', entity: 'App\Entity\Brand'}
+            - {name: 'doctrine.orm.entity_listener', event: 'preUpdate', entity: 'App\Entity\Brand'}
+
+    gedmo.listener.sluggable:
+        class: Gedmo\Sluggable\SluggableListener
+        tags:
+            - { name: doctrine.event_subscriber, connection: default, priority: 1 }
+        calls:
+            - [ setAnnotationReader, [ '@annotation_reader' ] ]
+    gedmo.listener.timestampable:
+        class: Gedmo\Timestampable\TimestampableListener
+        tags:
+            - { name: doctrine.event_subscriber, connection: default, priority: 1 }
+        calls:
+            - [ setAnnotationReader, [ '@annotation_reader' ] ]
