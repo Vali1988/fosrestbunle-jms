@@ -22,26 +22,23 @@ class Brand
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-	 * @Groups({"getBrand"})
      */
     private $id;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Product", mappedBy="brand")
-	 * @Groups({"getBrand"})
      */
     private $product;
 
     /**
      * @ORM\Column(type="string", length=255)
 	 * @Assert\NotBlank(message="El campo debe estar relleno")
-	 * @Groups({"getBrand"})
+	 * @Assert\Unique()
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
-	 * @Groups({"getBrand"})
 	 * @Gedmo\Slug(fields={"name"}, unique=true, updatable=true)
      */
     private $slug;

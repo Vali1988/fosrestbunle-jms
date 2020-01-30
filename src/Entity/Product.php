@@ -22,14 +22,13 @@ class Product
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-	 * @Groups({"getProduct","getTag", "getBrand"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
 	 * @Assert\NotBlank(message="El campo debe estar relleno")
-	 * @Groups({"getProduct","getTag", "getBrand"})
+	 * @Assert\Unique()
      */
     private $name;
 
@@ -42,19 +41,16 @@ class Product
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-	 * @Groups({"getProduct","getTag"})
      */
     private $description;
 
     /**
      * @ORM\Column(type="integer")
-	 * @Groups({"getProduct","getTag", "getBrand"})
      */
     private $visit = 0;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Tag", mappedBy="products")
-	 * @Groups({"getProduct"})
      */
     private $tags;
 

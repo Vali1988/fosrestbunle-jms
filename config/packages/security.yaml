@@ -38,3 +38,4 @@ security:
         - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/public/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/users, roles: IS_AUTHENTICATED_FULLY, methods:['DELETE', 'PATCH', 'PUT'] }
+        - { path: ^/tags, roles: IS_AUTHENTICATED_FULLY, methods:['DELETE', 'POST', 'PATCH', 'PUT'] }
