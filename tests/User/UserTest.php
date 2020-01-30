@@ -76,7 +76,6 @@ class UserTest extends Base
 		$this->assertEquals(Response::HTTP_UNAUTHORIZED, $request->getStatusCode());
 	}
 
-
 	function testGetItemUserSuccess()
 	{
 		$this->createAuthenticatedClient('user@test.com', 'testtest');
@@ -88,21 +87,18 @@ class UserTest extends Base
 
 	function testGetItemUserFailed()
 	{
-		$this->createAuthenticatedClient('user@test.com', 'testtest');
-		$id = $this->findOneIdBy(User::class, 'email', 'user2@test.com');
-		$request = $this->request(Request::METHOD_GET, '/users/'.$id);
-		$this->assertEquals(Response::HTTP_FORBIDDEN, $request->getStatusCode());
-
-		$id = $this->findOneIdBy(User::class, 'email', 'user2@test.com');
-		$request = $this->request(Request::METHOD_GET, '/users/'.$id);
-		$this->assertEquals(Response::HTTP_FORBIDDEN, $request->getStatusCode());
-
-		$this->createAuthenticatedClient('admin@test.com', 'testtest');
 		$request = $this->request(Request::METHOD_GET, '/users/85');
 		$this->assertEquals(Response::HTTP_NOT_FOUND, $request->getStatusCode());
 	}
 
-	/*
+	function testCollectionUserSuccess()
+	{
+		$this->createAuthenticatedClient('admin@test.com', 'testtest');
+		$request = $this->request(Request::METHOD_GET, '/users');
+
+		$this->assertEquals(Response::HTTP_OK, $request->getStatusCode());
+	}
+
 	function testPatchUserSuccess()
 	{
 		$this->createAuthenticatedClient('user@test.com', 'testtest');
@@ -129,6 +125,13 @@ class UserTest extends Base
 	function testPatchUserFailed()
 	{
 		$this->createAuthenticatedClient('user@test.com', 'testtest');
+		$request = $this->request(Request::METHOD_PATCH, '/users/80', [
+			'name' => 'Test Name'
+		]);;
+
+		$this->assertEquals(Response::HTTP_NOT_FOUND, $request->getStatusCode());
+
+		$this->createAuthenticatedClient('user@test.com', 'testtest');
 		$id = $this->findOneIdBy(User::class, 'email', 'user2@test.com');
 		$request = $this->request(Request::METHOD_PATCH, '/users/'.$id, [
 			'name' => 'Test Name'
@@ -136,31 +139,32 @@ class UserTest extends Base
 
 		$this->assertEquals(Response::HTTP_FORBIDDEN, $request->getStatusCode());
 	}
-	*/
 
-	function testCollectionUserSuccess()
-	{
-		$this->createAuthenticatedClient('admin@test.com', 'testtest');
-		$request = $this->request(Request::METHOD_GET, '/users');
-
-		$this->assertEquals(Response::HTTP_OK, $request->getStatusCode());
-	}
-
-	function testCollectionUserFailed()
-	{
-		$this->createAuthenticatedClient('user@test.com', 'testtest');
-		$request = $this->request(Request::METHOD_GET, '/users');
-
-		$this->assertEquals(Response::HTTP_FORBIDDEN, $request->getStatusCode());
-	}
-
-	/*function testDeleteUserFailed()
+	function testDeleteUserFailed()
 	{
 		$this->createAuthenticatedClient('user@test.com', 'testtest');
 		$id = $this->findOneIdBy(User::class, 'email', 'user2@test.com');
 		$request = $this->request(Request::METHOD_DELETE, '/users/'.$id);
 
 		$this->assertEquals(Response::HTTP_FORBIDDEN, $request->getStatusCode());
+
+		$this->createAuthenticatedClient('user@test.com', 'testtest');
+		$request = $this->request(Request::METHOD_DELETE, '/users/56');
+
+		$this->assertEquals(Response::HTTP_NOT_FOUND, $request->getStatusCode());
+	}
+
+	function testDeleteFailedWithoutUser()
+	{
+		$id = $this->findOneIdBy(User::class, 'email', 'user2@test.com');
+		$request = $this->request(Request::METHOD_DELETE, '/users/'.$id);
+
+		$this->assertEquals(Response::HTTP_UNAUTHORIZED, $request->getStatusCode());
+
+		$this->createAuthenticatedClient('user@test.com', 'testtest');
+		$request = $this->request(Request::METHOD_DELETE, '/users/56');
+
+		$this->assertEquals(Response::HTTP_NOT_FOUND, $request->getStatusCode());
 	}
 
 	function testDeleteUserSuccess()
@@ -171,10 +175,10 @@ class UserTest extends Base
 
 		$this->assertEquals(Response::HTTP_NO_CONTENT, $request->getStatusCode());
 
-		$this->createAuthenticatedClient('user2@test.com', 'testtest');
+		$this->createAuthenticatedClient('admin@test.com', 'testtest');
 		$id = $this->findOneIdBy(User::class, 'email', 'user2@test.com');
 		$request = $this->request(Request::METHOD_DELETE, '/users/'.$id);
 
 		$this->assertEquals(Response::HTTP_NO_CONTENT, $request->getStatusCode());
-	}*/
+	}
 }

@@ -6,6 +6,7 @@ namespace App\Service\UserService;
 
 use App\Entity\User;
 use App\Service\CollectionService\CollectionServiceInterface;
+use Doctrine\DBAL\Exception\DatabaseObjectExistsException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -27,8 +28,6 @@ class UserService implements UserServiceInterface
 	private $authorizationChecker;
 
 	private $collectionService;
-
-	private $serializerService;
 
 	public function __construct(
 		EntityManagerInterface $entityManager,
@@ -54,7 +53,7 @@ class UserService implements UserServiceInterface
 			throw new AccessDeniedHttpException('Access Denied');
 		}
 
-		if(in_array($parameters['method'], [Request::METHOD_DELETE, 'item', Request::METHOD_PATCH])
+		if(in_array($parameters['method'], [Request::METHOD_DELETE, Request::METHOD_PATCH])
 			&& (!$this->checkCredential($user) && !$this->authorizationChecker->isGranted('ROLE_ADMIN'))) {
 				throw new AccessDeniedException('Access Denied');
 		}
@@ -67,23 +66,28 @@ class UserService implements UserServiceInterface
 		return ($this->tokenStorage->getToken()->getUser()->getId() == $user->getId());
 	}
 
+	public function getElement(string $slug, string $identifier)
+	{
+		$user = $this->entityManager->getRepository(User::class)->findOneBy([$identifier => $slug]);
+
+		if(!$user) {
+			throw new NotFoundHttpException('User Not Found');
+		}
+
+		return $user;
+	}
+
 	function add(User $user)
 	{
 		$user->setPassword($this->userPasswordEncoder->encodePassword($user, $user->getPassword()));
 		$this->entityManager->getRepository(User::class)->add($user);
 	}
 
-	function deleteUser(User $user)
+	function delete(string $slug, string $identifier = 'id')
 	{
+		$user = $this->getElement($slug, $identifier);
 		$this->checkRights($user, ['method' => Request::METHOD_DELETE]);
 		$this->entityManager->getRepository(User::class)->delete($user);
-	}
-
-	public function updateUser(User $user)
-	{
-		$this->checkRights($user, ['method' => Request::METHOD_PATCH]);
-		$this->entityManager->getRepository(User::class)->add($user);
-		return $this->serializerService->serializer($user, ['groups' => 'getUser']);
 	}
 
 	function collection(Request $request)
@@ -93,11 +97,12 @@ class UserService implements UserServiceInterface
 
 	function item(string $slug, string $identifier = 'id')
 	{
-		$user = $this->entityManager->getRepository(User::class)->findOneBy([$identifier => $slug]);
-		if(!$user) {
-			throw new NotFoundHttpException('User Not Found');
-		}
-		$this->checkRights($user, ['method' => 'item']);
-		return $user;
+		return $this->getElement($slug, $identifier);
+	}
+
+	function update(User $user, string $method = Request::METHOD_PATCH)
+	{
+		$this->checkRights($user, ['method' => $method]);
+		$this->entityManager->getRepository(User::class)->add($user);
 	}
 }

@@ -11,8 +11,8 @@ interface UserServiceInterface
 {
 	function checkRights(User $user, array $parameters);
 	function add(User $user);
-	function deleteUser(User $user);
-	function updateUser(User $user);
+	function delete(string $slug, string $identifier = 'id');
+	function update(User $user);
 	function collection(Request $request);
 	function item(string $slug, string $identifier = 'id');
 }
