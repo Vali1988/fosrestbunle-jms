@@ -28,14 +28,12 @@ class Product
     /**
      * @ORM\Column(type="string", length=255)
 	 * @Assert\NotBlank(message="El campo debe estar relleno")
-	 * @Assert\Unique()
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
 	 * @Gedmo\Slug(fields={"name"}, unique=true, updatable=true)
-	 * @Groups({"getProduct","getTag", "getBrand"})
      */
     private $slug;
 
