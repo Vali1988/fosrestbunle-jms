@@ -22,27 +22,23 @@ class Tag
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-	 * @Groups({"getProduct", "getTag"})
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
 	 * @Assert\NotBlank(message="El campo tiene que estar relleno")
-	 * @Groups({"getProduct", "getTag"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
 	 * @Gedmo\Slug(fields={"name"}, unique=true, updatable=true)
-	 * @Groups({"getProduct", "getTag"})
      */
     private $slug;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Product", inversedBy="tags")
-	 * @Groups({"getTag"})
      */
     private $products;
 

@@ -6,7 +6,6 @@ namespace App\Service\UserService;
 
 use App\Entity\User;
 use App\Service\CollectionService\CollectionServiceInterface;
-use Doctrine\DBAL\Exception\DatabaseObjectExistsException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -15,7 +14,6 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 class UserService implements UserServiceInterface
 {

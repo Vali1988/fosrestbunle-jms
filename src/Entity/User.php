@@ -5,7 +5,6 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -18,26 +17,22 @@ class User implements UserInterface
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-	 * @Groups({"getUser"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
-	 * @Groups({"getUser"})
 	 * @Assert\Email()
      */
     private $email;
 
 	/**
 	 * @ORM\Column(type="string", length=255, nullable=true)
-	 * @Groups({"getUser"})
 	 */
 	private $name;
 
 	/**
 	 * @ORM\Column(type="string", length=255, nullable=true)
-	 * @Groups({"getUser"})
 	 */
 	private $lastname;
 
@@ -49,7 +44,6 @@ class User implements UserInterface
 
 	/**
 	 * @ORM\Column(type="date", length=255, nullable=true)
-	 * @Groups({"getUser"})
 	 */
 	private $dob;
 
@@ -57,11 +51,6 @@ class User implements UserInterface
      * @ORM\Column(type="json")
      */
     private $roles = [];
-
-	/**
-	 * @Groups({"getUser"})
-	 */
-    private $fullName;
 
     /**
      * @ORM\Column(type="boolean")
@@ -193,9 +182,4 @@ class User implements UserInterface
 
         return $this;
     }
-
-	public function getFullName()
-	{
-		return $this->getName() . ' ' . $this->getLastname();
-	}
 }
