@@ -57,9 +57,15 @@ class Product
      */
     private $brand;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\CommentsProduct", mappedBy="product", orphanRemoval=true)
+     */
+    private $commentsProducts;
+
     public function __construct()
     {
         $this->tags = new ArrayCollection();
+        $this->commentsProducts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -151,6 +157,37 @@ class Product
     public function setBrand(?Brand $brand): self
     {
         $this->brand = $brand;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CommentsProduct[]
+     */
+    public function getCommentsProducts(): Collection
+    {
+        return $this->commentsProducts;
+    }
+
+    public function addCommentsProduct(CommentsProduct $commentsProduct): self
+    {
+        if (!$this->commentsProducts->contains($commentsProduct)) {
+            $this->commentsProducts[] = $commentsProduct;
+            $commentsProduct->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentsProduct(CommentsProduct $commentsProduct): self
+    {
+        if ($this->commentsProducts->contains($commentsProduct)) {
+            $this->commentsProducts->removeElement($commentsProduct);
+            // set the owning side to null (unless already changed)
+            if ($commentsProduct->getProduct() === $this) {
+                $commentsProduct->setProduct(null);
+            }
+        }
 
         return $this;
     }

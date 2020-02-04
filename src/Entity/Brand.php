@@ -42,9 +42,15 @@ class Brand
      */
     private $slug;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\CommentsBrand", mappedBy="brand", orphanRemoval=true)
+     */
+    private $commentsBrands;
+
     public function __construct()
     {
         $this->product = new ArrayCollection();
+        $this->commentsBrands = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -103,6 +109,37 @@ class Brand
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CommentsBrand[]
+     */
+    public function getCommentsBrands(): Collection
+    {
+        return $this->commentsBrands;
+    }
+
+    public function addCommentsBrand(CommentsBrand $commentsBrand): self
+    {
+        if (!$this->commentsBrands->contains($commentsBrand)) {
+            $this->commentsBrands[] = $commentsBrand;
+            $commentsBrand->setBrand($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentsBrand(CommentsBrand $commentsBrand): self
+    {
+        if ($this->commentsBrands->contains($commentsBrand)) {
+            $this->commentsBrands->removeElement($commentsBrand);
+            // set the owning side to null (unless already changed)
+            if ($commentsBrand->getBrand() === $this) {
+                $commentsBrand->setBrand(null);
+            }
+        }
 
         return $this;
     }

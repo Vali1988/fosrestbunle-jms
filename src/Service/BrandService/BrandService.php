@@ -6,7 +6,6 @@ namespace App\Service\BrandService;
 
 use App\Entity\Brand;
 use App\Service\CollectionService\CollectionServiceInterface;
-use App\Service\SerializerService\SerializerServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
