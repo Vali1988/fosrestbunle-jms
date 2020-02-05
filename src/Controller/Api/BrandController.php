@@ -87,4 +87,15 @@ class BrandController extends BaseController
 	{
 		return parent::update($request, $slug, $method);
 	}
+
+	/**
+	 * @Rest\Get("/{slug}/comments")
+	 * @param Brand $brand
+	 * @param Request $request
+	 * @return \Symfony\Component\HttpFoundation\Response
+	 */
+	public function collectionCommentsByBrand(Brand $brand, Request $request)
+	{
+		return parent::collectionRelation($request, $brand, 'getCommentsBrands');
+	}
 }

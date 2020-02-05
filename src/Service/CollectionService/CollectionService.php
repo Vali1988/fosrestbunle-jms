@@ -29,4 +29,19 @@ class CollectionService implements CollectionServiceInterface
 
 		return ['count' => $count, 'result' => $result];
 	}
+
+	public function collectionRelation(Request $request, $entity, string $entityFunction)
+	{
+		$result = [];
+
+		for($x = $request->query->get('initialPosition', 0); $x < $request->query->get('finalPosition', 24); $x++)
+		{
+			$result[] = $entity->$entityFunction()->get($x);
+		}
+
+		return [
+			'total' => $entity->$entityFunction()->count(),
+			'result' => $result,
+		];
+	}
 }

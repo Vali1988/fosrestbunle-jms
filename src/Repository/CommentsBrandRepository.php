@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\CommentsBrand;
+use App\Repository\Traits\PaginationTrait;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -14,37 +15,11 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  */
 class CommentsBrandRepository extends ServiceEntityRepository
 {
+	use PaginationTrait;
+	protected $entity = CommentsBrand::class;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, CommentsBrand::class);
     }
-
-    // /**
-    //  * @return CommentsBrand[] Returns an array of CommentsBrand objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?CommentsBrand
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

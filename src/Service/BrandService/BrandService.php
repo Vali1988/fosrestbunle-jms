@@ -85,4 +85,9 @@ class BrandService implements BrandServiceInterface
 	{
 		return $this->getElement($slug, $identifier);
 	}
+
+	public function collectionRelation(Request $request, Brand $brand, string $entityFunction)
+	{
+		return $this->collectionService->collectionRelation($request, $brand, $entityFunction);
+	}
 }

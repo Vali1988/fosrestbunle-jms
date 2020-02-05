@@ -87,4 +87,15 @@ class ProductController extends BaseController
 	{
 		return parent::update($request, $slug, $method);
 	}
+
+	/**
+	 * @Rest\Get("/{slug}/comments")
+	 * @param Product $product
+	 * @param Request $request
+	 * @return \Symfony\Component\HttpFoundation\Response
+	 */
+	public function collectionCommentsByBrand(Product $product, Request $request)
+	{
+		return parent::collectionRelation($request, $product, 'getCommentsProducts');
+	}
 }

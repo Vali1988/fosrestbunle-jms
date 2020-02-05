@@ -13,4 +13,5 @@ interface BaseControllerInterface
 	function item(string $slug);
 	function delete(string $slug);
 	function update(Request $request, string $slug, string $method = Request::METHOD_PATCH);
+	function collectionRelation(Request $request, $entity, string $functionRelation);
 }

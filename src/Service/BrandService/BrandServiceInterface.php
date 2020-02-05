@@ -14,4 +14,5 @@ interface BrandServiceInterface
 	function update(Brand $brand);
 	function collection(Request $request);
 	function item(string $slug, string $identifier = 'id');
+	function collectionRelation(Request $request, Brand $brand, string $entityFunction);
 }

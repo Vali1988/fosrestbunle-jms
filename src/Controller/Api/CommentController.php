@@ -5,6 +5,7 @@ namespace App\Controller\Api;
 
 
 use App\Controller\Base\BaseController;
+use App\Entity\Brand;
 use App\Entity\CommentsBrand;
 use App\Entity\CommentsProduct;
 use App\Forms\Comment\CommentBrand;
@@ -21,6 +22,16 @@ class CommentController extends BaseController
 	public function __construct(CommentServiceInterface $service)
 	{
 		$this->service = $service;
+	}
+
+	/**
+	 * @Rest\Get("")
+	 * @param Request $request
+	 * @return \Symfony\Component\HttpFoundation\Response
+	 */
+	public function collection(Request $request)
+	{
+		return parent::collection($request);
 	}
 
 	/**

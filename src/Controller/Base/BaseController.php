@@ -71,4 +71,12 @@ class BaseController extends AbstractFOSRestController implements BaseController
 		return $this->handleView($view);
 
 	}
+
+	public function collectionRelation(Request $request, $entity, string $functionRelation)
+	{
+		$data = $this->service->collectionRelation($request, $entity, $functionRelation);
+		$view = $this->view($data);
+		$view->getContext()->enableMaxDepth();
+		return $this->handleView($view);
+	}
 }
