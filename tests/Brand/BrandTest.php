@@ -104,4 +104,19 @@ class BrandTest extends Base
 		]);
 		$this->assertEquals(Response::HTTP_FORBIDDEN, $request->getStatusCode());
 	}
+
+	function testGetCommentByBrandSuccess()
+	{
+		$id = $this->findOneIdBy(Brand::class, 'name', 'brand 1', 'Slug');
+		$request = $this->request(Request::METHOD_GET, '/brands/'.$id.'/comments');
+		$data = json_decode($request->getContent(), true);
+		$this->assertEquals(count($data['result']), $data['total']);
+		$this->assertEquals(200, $request->getStatusCode());
+	}
+
+	function testGetCommentByBrandFailed()
+	{
+		$request = $this->request(Request::METHOD_GET, '/brands/30/comments');
+		$this->assertEquals(404, $request->getStatusCode());
+	}
 }

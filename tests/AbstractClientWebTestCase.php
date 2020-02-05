@@ -24,6 +24,7 @@ abstract class AbstractClientWebTestCase extends WebTestCase
 		"App\DataFixtures\ProductFixtures",
 		"App\DataFixtures\TagFixtures",
 		"App\DataFixtures\BrandFixtures",
+		"App\DataFixtures\CommentFixtures",
 	];
 
 	public function __construct($name = null, array $data = [], $dataName = '')
