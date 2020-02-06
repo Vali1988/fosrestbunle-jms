@@ -18,6 +18,11 @@ class TagController extends BaseController
 	protected $formPost = TagForm::class;
 	protected $formUpdate = TagForm::class;
 	protected $entityClass = Tag::class;
+	protected $groupCollection = 'tag:collection';
+	protected $groupItem = 'tag:item';
+	protected $groupCreate = 'tag:create';
+	protected $groupUpdate = 'tag:update';
+	protected $identifier = 'slug';
 
 	public function __construct(TagServiceInterface $service)
 	{

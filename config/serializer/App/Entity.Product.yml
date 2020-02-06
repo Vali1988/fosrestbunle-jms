@@ -1,0 +1,22 @@
+App\Entity\Product:
+  exclusion_policy: all
+  properties:
+    id:
+      expose: true
+      groups: [product:collection, product:item, product:create, product:update, brand:collection, brand:item]
+    brand:
+      expose: true
+      groups: [product:item]
+    name:
+      expose: true
+      groups: [product:collection, product:item, product:create, product:update, brand:collection, brand:item]
+    slug:
+      expose: true
+      groups: [product:collection, product:item, product:create, product:update,brand:collection, brand:item]
+    tags:
+      expose: true
+      max_depth: 1
+      groups: [product:item]
+    visit:
+      expose: true
+      groups: [product:collection, product:item, brand:item]

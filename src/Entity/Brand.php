@@ -143,4 +143,14 @@ class Brand
 
         return $this;
     }
+
+	public function getProductCount()
+	{
+		return $this->getProduct()->count();
+    }
+
+	public function getCommentCount()
+	{
+		return $this->getCommentsBrands()->count();
+    }
 }

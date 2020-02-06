@@ -18,6 +18,11 @@ class BrandController extends BaseController
 	protected $formPost = BrandForm::class;
 	protected $formUpdate = BrandForm::class;
 	protected $entityClass = Brand::class;
+	protected $groupCollection = 'brand:collection';
+	protected $groupItem = 'brand:item';
+	protected $groupCreate = 'brand:create';
+	protected $groupUpdate = 'brand:update';
+	protected $identifier = 'slug';
 
 	public function __construct(BrandServiceInterface $service)
 	{

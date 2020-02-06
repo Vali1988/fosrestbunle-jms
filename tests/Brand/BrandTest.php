@@ -12,7 +12,7 @@ class BrandTest extends Base
 {
 	function testGetItemBrandSuccess()
 	{
-		$id = $this->findOneIdBy(Brand::class, 'name', 'brand 1');
+		$id = $this->findOneIdBy(Brand::class, 'name', 'brand 1', 'Slug');
 		$request = $this->request(Request::METHOD_GET, '/brands/'.$id);
 		$this->assertEquals(Response::HTTP_OK, $request->getStatusCode());
 	}
@@ -25,14 +25,14 @@ class BrandTest extends Base
 
 	function testCollectionBrandSuccess()
 	{
-		$request = $this->request(Request::METHOD_GET, '/users');
+		$request = $this->request(Request::METHOD_GET, '/brands');
 		$this->assertEquals(Response::HTTP_OK, $request->getStatusCode());
 	}
 
 	function testDeleteBrandSuccess()
 	{
 		$this->createAuthenticatedClient('admin@test.com', 'testtest');
-		$id = $this->findOneIdBy(Brand::class, 'name', 'brand 1');
+		$id = $this->findOneIdBy(Brand::class, 'name', 'brand 1', 'Slug');
 		$request = $this->request(Request::METHOD_DELETE, '/brands/'.$id);
 
 		$this->assertEquals(Response::HTTP_NO_CONTENT, $request->getStatusCode());
@@ -40,12 +40,12 @@ class BrandTest extends Base
 
 	function testDeleteBrandFailed()
 	{
-		$id = $this->findOneIdBy(Brand::class, 'name', 'brand 1');
+		$id = $this->findOneIdBy(Brand::class, 'name', 'brand 1', 'Slug');
 		$request = $this->request(Request::METHOD_DELETE, '/brands/' . $id);
 		$this->assertEquals(Response::HTTP_UNAUTHORIZED, $request->getStatusCode());
 
 		$this->createAuthenticatedClient('user@test.com', 'testtest');
-		$id = $this->findOneIdBy(Brand::class, 'name', 'brand 1');
+		$id = $this->findOneIdBy(Brand::class, 'name', 'brand 1', 'Slug');
 		$request = $this->request(Request::METHOD_DELETE, '/brands/' . $id);
 		$this->assertEquals(Response::HTTP_FORBIDDEN, $request->getStatusCode());
 
@@ -57,7 +57,7 @@ class BrandTest extends Base
 	function testUpdateBrandSuccess()
 	{
 		$this->createAuthenticatedClient('admin@test.com', 'testtest');
-		$id = $this->findOneIdBy(Brand::class, 'name', 'brand 1');
+		$id = $this->findOneIdBy(Brand::class, 'name', 'brand 1', 'Slug');
 		$request = $this->request(Request::METHOD_PATCH, '/brands/' . $id, [
 			'name' => 'Test Name Success'
 		]);
@@ -66,12 +66,12 @@ class BrandTest extends Base
 
 	function testUpdateBrandFailed()
 	{
-		$id = $this->findOneIdBy(Brand::class, 'name', 'brand 1');
+		$id = $this->findOneIdBy(Brand::class, 'name', 'brand 1', 'Slug');
 		$request = $this->request(Request::METHOD_PATCH, '/brands/' . $id);
 		$this->assertEquals(Response::HTTP_UNAUTHORIZED, $request->getStatusCode());
 
 		$this->createAuthenticatedClient('user@test.com', 'testtest');
-		$id = $this->findOneIdBy(Brand::class, 'name', 'brand 1');
+		$id = $this->findOneIdBy(Brand::class, 'name', 'brand 1', 'Slug');
 		$request = $this->request(Request::METHOD_PATCH, '/brands/' . $id, [
 			'name' => 'Test'
 		]);

@@ -18,6 +18,11 @@ class ProductController extends BaseController
 	protected $formPost = ProductForm::class;
 	protected $formUpdate = ProductForm::class;
 	protected $entityClass = Product::class;
+	protected $groupCollection = 'product:collection';
+	protected $groupItem = 'product:item';
+	protected $groupCreate = 'product:create';
+	protected $groupUpdate = 'product:update';
+	protected $identifier = 'slug';
 
 	public function __construct(ProductServiceInterface $service)
 	{

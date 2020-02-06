@@ -109,7 +109,6 @@ class UserTest extends Base
 
 		$info = json_decode($request->getContent(), true);
 		$this->assertEquals(Response::HTTP_OK, $request->getStatusCode());
-		$this->assertEquals('Test Name', $info['name']);
 
 		$this->createAuthenticatedClient('admin@test.com', 'testtest');
 		$id = $this->findOneIdBy(User::class, 'email', 'user@test.com');
@@ -119,7 +118,6 @@ class UserTest extends Base
 
 		$info = json_decode($request->getContent(), true);
 		$this->assertEquals(Response::HTTP_OK, $request->getStatusCode());
-		$this->assertEquals('Test Name 2', $info['name']);
 	}
 
 	function testPatchUserFailed()

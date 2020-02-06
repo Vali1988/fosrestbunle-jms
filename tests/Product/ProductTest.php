@@ -12,7 +12,7 @@ class ProductTest extends Base
 {
 	function testGetItemProductSuccess()
 	{
-		$id = $this->findOneIdBy(Product::class, 'name', 'product 1');
+		$id = $this->findOneIdBy(Product::class, 'name', 'product 1', 'Slug');
 		$request = $this->request(Request::METHOD_GET, '/products/'.$id);
 		$this->assertEquals(Response::HTTP_OK, $request->getStatusCode());
 	}
@@ -25,14 +25,14 @@ class ProductTest extends Base
 
 	function testCollectionProductSuccess()
 	{
-		$request = $this->request(Request::METHOD_GET, '/users');
+		$request = $this->request(Request::METHOD_GET, '/products');
 		$this->assertEquals(Response::HTTP_OK, $request->getStatusCode());
 	}
 
 	function testDeleteProductSuccess()
 	{
 		$this->createAuthenticatedClient('admin@test.com', 'testtest');
-		$id = $this->findOneIdBy(Product::class, 'name', 'product 1');
+		$id = $this->findOneIdBy(Product::class, 'name', 'product 1', 'Slug');
 		$request = $this->request(Request::METHOD_DELETE, '/products/'.$id);
 
 		$this->assertEquals(Response::HTTP_NO_CONTENT, $request->getStatusCode());
@@ -40,12 +40,12 @@ class ProductTest extends Base
 
 	function testDeleteProductFailed()
 	{
-		$id = $this->findOneIdBy(Product::class, 'name', 'product 1');
+		$id = $this->findOneIdBy(Product::class, 'name', 'product 1', 'Slug');
 		$request = $this->request(Request::METHOD_DELETE, '/products/' . $id);
 		$this->assertEquals(Response::HTTP_UNAUTHORIZED, $request->getStatusCode());
 
 		$this->createAuthenticatedClient('user@test.com', 'testtest');
-		$id = $this->findOneIdBy(Product::class, 'name', 'product 1');
+		$id = $this->findOneIdBy(Product::class, 'name', 'product 1', 'Slug');
 		$request = $this->request(Request::METHOD_DELETE, '/products/' . $id);
 		$this->assertEquals(Response::HTTP_FORBIDDEN, $request->getStatusCode());
 
@@ -57,7 +57,7 @@ class ProductTest extends Base
 	function testUpdateProductSuccess()
 	{
 		$this->createAuthenticatedClient('admin@test.com', 'testtest');
-		$id = $this->findOneIdBy(Product::class, 'name', 'product 1');
+		$id = $this->findOneIdBy(Product::class, 'name', 'product 1', 'Slug');
 		$request = $this->request(Request::METHOD_PATCH, '/products/' . $id, [
 			'name' => 'Test Name Success'
 		]);
@@ -66,14 +66,14 @@ class ProductTest extends Base
 
 	function testUpdateProductFailed()
 	{
-		$id = $this->findOneIdBy(Product::class, 'name', 'product 1');
+		$id = $this->findOneIdBy(Product::class, 'name', 'product 1', 'Slug');
 		$request = $this->request(Request::METHOD_PATCH, '/products/' . $id, [
 			'name' => 'Test'
 		]);
 		$this->assertEquals(Response::HTTP_UNAUTHORIZED, $request->getStatusCode());
 
 		$this->createAuthenticatedClient('user@test.com', 'testtest');
-		$id = $this->findOneIdBy(Product::class, 'name', 'product 1');
+		$id = $this->findOneIdBy(Product::class, 'name', 'product 1', 'Slug');
 		$request = $this->request(Request::METHOD_PATCH, '/products/' . $id, [
 			'name' => 'Test'
 		]);

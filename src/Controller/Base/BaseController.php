@@ -16,19 +16,22 @@ class BaseController extends AbstractFOSRestController implements BaseController
 	protected $formUpdate;
 	protected $entityClass;
 	protected $identifier = 'id';
+	protected $groupCollection;
+	protected $groupItem;
+	protected $groupCreate;
+	protected $groupUpdate;
 
 	function collection(Request $request)
 	{
 		$view = $this->view($this->service->collection($request),  Response::HTTP_OK);
-		$view->getContext()->enableMaxDepth();
-
+		$view->getContext()->enableMaxDepth()->setGroups([$this->groupCollection]);
 		return $this->handleView($view);
 	}
 
 	public function item(string $slug)
 	{
 		$view = $this->view($this->service->item($slug, $this->identifier));
-		$view->getContext()->enableMaxDepth();
+		$view->getContext()->setGroups([$this->groupItem]);
 		return $this->handleView($view);
 	}
 
@@ -50,7 +53,7 @@ class BaseController extends AbstractFOSRestController implements BaseController
 			$view = $this->view($form, 400);
 		}
 
-		$view->getContext()->enableMaxDepth();
+		$view->getContext()->enableMaxDepth()->setGroups([$this->groupCreate]);
 		return $this->handleView($view);
 	}
 
@@ -67,7 +70,7 @@ class BaseController extends AbstractFOSRestController implements BaseController
 			$view = $this->view($form, 400);
 		}
 
-		$view->getContext()->enableMaxDepth();
+		$view->getContext()->enableMaxDepth()->setGroups([$this->groupUpdate]);
 		return $this->handleView($view);
 
 	}

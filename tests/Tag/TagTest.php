@@ -13,7 +13,7 @@ class TagTest extends Base
 {
 	function testGetItemTagSuccess()
 	{
-		$id = $this->findOneIdBy(Tag::class, 'name', 'tag 1');
+		$id = $this->findOneIdBy(Tag::class, 'name', 'tag 1', 'Slug');
 		$request = $this->request(Request::METHOD_GET, '/tags/'.$id);
 		$this->assertEquals(Response::HTTP_OK, $request->getStatusCode());
 	}
@@ -33,7 +33,7 @@ class TagTest extends Base
 	function testDeleteTagSuccess()
 	{
 		$this->createAuthenticatedClient('admin@test.com', 'testtest');
-		$id = $this->findOneIdBy(Tag::class, 'name', 'tag 1');
+		$id = $this->findOneIdBy(Tag::class, 'name', 'tag 1', 'Slug');
 		$request = $this->request(Request::METHOD_DELETE, '/tags/'.$id);
 
 		$this->assertEquals(Response::HTTP_NO_CONTENT, $request->getStatusCode());
@@ -41,12 +41,12 @@ class TagTest extends Base
 
 	function testDeleteTagFailed()
 	{
-		$id = $this->findOneIdBy(Tag::class, 'name', 'tag 1');
+		$id = $this->findOneIdBy(Tag::class, 'name', 'tag 1', 'Slug');
 		$request = $this->request(Request::METHOD_DELETE, '/tags/' . $id);
 		$this->assertEquals(Response::HTTP_UNAUTHORIZED, $request->getStatusCode());
 
 		$this->createAuthenticatedClient('user@test.com', 'testtest');
-		$id = $this->findOneIdBy(Tag::class, 'name', 'tag 1');
+		$id = $this->findOneIdBy(Tag::class, 'name', 'tag 1', 'Slug');
 		$request = $this->request(Request::METHOD_DELETE, '/tags/' . $id);
 		$this->assertEquals(Response::HTTP_FORBIDDEN, $request->getStatusCode());
 
@@ -58,7 +58,7 @@ class TagTest extends Base
 	function testUpdateTagSuccess()
 	{
 		$this->createAuthenticatedClient('admin@test.com', 'testtest');
-		$id = $this->findOneIdBy(Tag::class, 'name', 'tag 1');
+		$id = $this->findOneIdBy(Tag::class, 'name', 'tag 1' , 'Slug');
 		$request = $this->request(Request::METHOD_PATCH, '/tags/' . $id, [
 			'name' => 'Test Name Success'
 		]);
@@ -67,12 +67,12 @@ class TagTest extends Base
 
 	function testUpdateTagFailed()
 	{
-		$id = $this->findOneIdBy(Tag::class, 'name', 'tag 1');
+		$id = $this->findOneIdBy(Tag::class, 'name', 'tag 1', 'Slug');
 		$request = $this->request(Request::METHOD_PATCH, '/tags/' . $id);
 		$this->assertEquals(Response::HTTP_UNAUTHORIZED, $request->getStatusCode());
 
 		$this->createAuthenticatedClient('user@test.com', 'testtest');
-		$id = $this->findOneIdBy(Tag::class, 'name', 'tag 1');
+		$id = $this->findOneIdBy(Tag::class, 'name', 'tag 1', 'Slug');
 		$request = $this->request(Request::METHOD_PATCH, '/tags/' . $id, [
 			'name' => 'Test'
 		]);

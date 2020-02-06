@@ -1,0 +1,23 @@
+App\Entity\Brand:
+  exclusion_policy: all
+  properties:
+    id:
+      expose: true
+      groups: [brand:collection, brand:item, brand:create, brand:update, product:item]
+    product:
+      expose: true
+      max_depth: 1
+      groups: [brand:item]
+    name:
+      expose: true
+      groups: [brand:collection, brand:item, brand:create, brand:update, product:item]
+    slug:
+      expose: true
+      groups: [brand:collection, brand:item, brand:create, brand:update, product:item]
+  virtual_properties:
+    getProductCount:
+      serialized_name: productCount
+      groups: [brand:collection, brand:item]
+    getCommentCount:
+      serialized_name: commentCount
+      groups: [brand:collection]
