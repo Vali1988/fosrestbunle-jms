@@ -21,6 +21,9 @@ class UserController extends BaseController
 	protected $formPost = RegisterForm::class;
 	protected $formUpdate = UpdateForm::class;
 	protected $entityClass = User::class;
+	protected $groupItem = 'user:item';
+	protected $groupCollection = 'user:collection';
+	protected $groupUpdate = 'user:update';
 
 	public function __construct(UserServiceInterface $service)
 	{

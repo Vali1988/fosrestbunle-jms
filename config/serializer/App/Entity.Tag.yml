@@ -1,0 +1,15 @@
+App\Entity\Tag:
+  exclusion_policy: all
+  properties:
+    id:
+      expose: true
+      groups: [tag:collection, tag:item, tag:create, tag:update, product:item, product:create, product:update]
+    name:
+      expose: true
+      groups: [tag:collection, tag:item, tag:create, tag:update, product:item, product:create, product:update]
+    slug:
+      expose: true
+      groups: [tag:collection, tag:item, tag:create, tag:update, product:item, product:create, product:update]
+    products:
+      expose: true
+      groups: [tag:item]

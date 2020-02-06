@@ -16,6 +16,7 @@ class RegisterController extends BaseController
 {
 	protected $formPost = RegisterForm::class;
 	protected $entityPost = User::class;
+	protected $groupCreate = 'user:create';
 
 	public function __construct(UserServiceInterface $service)
 	{

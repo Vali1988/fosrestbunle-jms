@@ -1,0 +1,18 @@
+App\Entity\User:
+  exclusion_policy: all
+  properties:
+    id:
+      expose: true
+      groups: [user:collection, user:item, user:create, user:update]
+    name:
+      expose: true
+      groups: [user:collection, user:item, user:create, user:update]
+    lastname:
+      expose: true
+      groups: [user:collection, user:item, user:create, user:update]
+    dob:
+      expose: true
+      groups: [user:collection, user:item, user:create, user:update]
+    email:
+      expose: true
+      groups: [user:collection, user:item, user:create, user:update]
